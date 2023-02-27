@@ -137,11 +137,9 @@ d3.csv("data/iris.csv").then((data) => {
         .enter()     
         .append("rect")  
             .attr("x", (d) => { return ((X_SCALE2(d.Species)) + MARGINS.left); }) 
-            //.attr("y", (d) => { return (Y_SCALE2(count(d.Species)) + MARGINS.top); }) 
-            .attr("y", (Y_SCALE2(50) + MARGINS.top)) 
+            .attr("y", (d) => { return (Y_SCALE2(CountInstances(d, d.Species)) + MARGINS.top); }) 
             .attr("width", X_SCALE2.bandwidth())
-            //.attr("height", (d) => { return VIS_HEIGHT - Y_SCALE2(CountInstances(d, d.Species)); })
-            .attr("height", (VIS_HEIGHT - Y_SCALE2(50)))
+            .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE2(CountInstances(d, d.Species)); })
             .attr("class", (d) => { return (ClassChooser(d.Species)); }); 
 
      // Add an axis to the vis 
@@ -156,8 +154,21 @@ d3.csv("data/iris.csv").then((data) => {
               "," + (MARGINS.left) + ")") 
         .call(d3.axisLeft(Y_SCALE2).ticks(4)) 
           .attr("font-size", '10px'); 
-    });
+});
 
-function CountInstances(data, species) {
-    const count = 4;
+
+function CountInstances(s) {
+  d3.csv("data/iris.csv").then((data) => {
+  const process = data =>  {
+    const counts = data.reduce((acc, { Species }) => {
+      acc.s   += Species.toLowerCase() === s;
+      //return acc;
+      return counts.s;
+    }, { s: 0 });
+  
+  console.log("Total count",counts.s)
+  
+  Object.entries(counts).forEach(([key,val]) => document.getElementById(key).textContent = val)
+}
+});
 }
