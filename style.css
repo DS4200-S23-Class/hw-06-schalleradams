@@ -1,0 +1,50 @@
+body {
+    font-family: Arial;
+}
+
+.center {
+    text-align: center;
+}
+
+
+#parent {
+    display: flex;
+    flex-direction: row;
+    object-fit: contain;
+}
+
+#left {
+    width: 33.33%;
+    padding-right: 10px;
+    object-fit: contain;
+    background-color: grey;
+}
+
+#middle {
+    width: 33.33%;
+    padding-right: 10px;
+    object-fit: contain;
+    background-color: gainsboro;
+}
+
+#right {
+    width: 33.33%;
+    padding-right: 10px;
+    object-fit: contain;
+    background-color: lightgray;
+}
+
+.virginica {
+    fill: palegoldenrod;
+    opacity: 50%;
+}
+
+.versicolor {
+    fill: paleturquoise;
+    opacity: 50%;
+}
+
+.setosa {
+    fill: palevioletred;
+    opacity: 50%;
+}
