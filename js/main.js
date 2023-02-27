@@ -137,9 +137,11 @@ d3.csv("data/iris.csv").then((data) => {
         .enter()     
         .append("rect")  
             .attr("x", (d) => { return ((X_SCALE2(d.Species)) + MARGINS.left); }) 
-            .attr("y", (d) => { return (Y_SCALE2(CountInstances(d, d.Species)) + MARGINS.top); }) 
+            //.attr("y", (d) => { return (Y_SCALE2(CountInstances(d, d.Species)) + MARGINS.top); }) 
+            .attr("y", (Y_SCALE2(50)) + MARGINS.top)
             .attr("width", X_SCALE2.bandwidth())
-            .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE2(CountInstances(d, d.Species)); })
+            //.attr("height", (d) => { return VIS_HEIGHT - Y_SCALE2(CountInstances(d, d.Species)); })
+            .attr("height", (VIS_HEIGHT - Y_SCALE2(50)))
             .attr("class", (d) => { return (ClassChooser(d.Species)); }); 
 
      // Add an axis to the vis 
