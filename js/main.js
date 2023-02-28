@@ -68,7 +68,7 @@ function build_scatters() {
 
     d3.select("#length")
           .call( d3.brush()                     // Add the brush feature using the d3.brush function
-            .extent( [ [0,0], [VIS_WIDTH, VIS_HEIGHT] ] )       // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+            .extent( [ [0,0], [(VIS_WIDTH + MARGINS.right), (VIS_HEIGHT + MARGINS.top)] ] )       // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
             .on("start brush", updateChart)
           )
 
