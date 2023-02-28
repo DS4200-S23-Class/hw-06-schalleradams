@@ -17,21 +17,18 @@ body {
     width: 33.33%;
     padding-right: 10px;
     object-fit: contain;
-    background-color: grey;
 }
 
 #middle {
     width: 33.33%;
     padding-right: 10px;
     object-fit: contain;
-    background-color: gainsboro;
 }
 
 #right {
     width: 33.33%;
     padding-right: 10px;
     object-fit: contain;
-    background-color: lightgray;
 }
 
 .virginica {
@@ -48,3 +45,9 @@ body {
     fill: purple;
     opacity: 50%;
 }
+
+.selected {
+    stroke: black;
+    stroke-width: 1px;
+    opacity: 100% !important;
+  }
