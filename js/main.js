@@ -49,7 +49,7 @@ function build_scatters() {
                             .attr("cx", (d) => { return (X_SCALE(d.Sepal_Length) + MARGINS.left); }) 
                             .attr("cy", (d) => { return (Y_SCALE(d.Petal_Length) + MARGINS.bottom); }) 
                             .attr("r", 5)
-                            .attr("id", (d) => { return ("L" +d.id); })
+                            .attr("id", (d) => { return d.id})
                             .attr("class", (d) => { return (ClassChooser(d.Species)); }); 
 
     // Add x axis to vis  
@@ -66,29 +66,20 @@ function build_scatters() {
         .call(d3.axisLeft(Y_SCALE).ticks(4)) 
           .attr("font-size", '10px'); 
 
-    d3.select("#length")
-          .call( d3.brush()                     // Add the brush feature using the d3.brush function
-            .extent( [ [0,0], [(VIS_WIDTH + MARGINS.right), (VIS_HEIGHT + MARGINS.top)] ] )       // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-            .on("start brush", updateChart)
-          )
-
-
-    // Function that is triggered when brushing is performed
-    function updateChart(event) {
-      extent = event.selection  //get coordinate
-      points.classed("selected", function(d){ return isBrushed(extent, X_SCALE(d.Sepal_Length), Y_SCALE(d.Petal_Length) ) } )
+    // somehow do linking here maybe??
+    function linkChart() {
+      points.classed("selected", function(d){ return isSelected(d.id) } )
 }
 
-    // A function that return TRUE or FALSE according if a dot is in the selection or not
-    function isBrushed(brush_coords, cx, cy) {
-      let x = (cx + MARGINS.left);
-      let y = (cy + MARGINS.top);
-      var x0 = brush_coords[0][0],
-          x1 = brush_coords[1][0],
-          y0 = brush_coords[0][1],
-          y1 = brush_coords[1][1];
-        return x0 <= x && x <= x1 && y0 <= y && y <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
-}
+    // return true if the point on the length scatter is sleected
+    function isSelected(id) {
+      let WidthID = "W" + id
+      let LPoint = document.getElementById(WidthID)
+
+      return LPoint.classList.contains("selected");
+     }
+
+
 }); 
 
 // read data and create plot for width
@@ -162,20 +153,7 @@ function build_scatters() {
           y0 = brush_coords[0][1],
           y1 = brush_coords[1][1];
         return x0 <= x && x <= x1 && y0 <= y && y <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
-}
-
-//     // somehow do linking here maybe??
-//     function linkChart() {
-//       wpoints.classed("selected", function(d){ return isBrushed(d.id) } )
-// }
-//     linkChart()
-
-//     // return true if the point on the length scatter is sleected
-//     function isSelected(id) {
-//       let LPoint = document.getElementById("L"+ id)
-
-//       return LPoint.classList.contains("selected");
-//      }
+    }
   }); 
 }
 
@@ -210,10 +188,8 @@ d3.csv("data/iris.csv").then((data) => {
         .enter()     
         .append("rect")  
             .attr("x", (d) => { return ((X_SCALE2(d.Species)) + MARGINS.left); }) 
-            //.attr("y", (d) => { return (Y_SCALE2(CountInstances(d, d.Species)) + MARGINS.top); }) 
             .attr("y", (Y_SCALE2(50)) + MARGINS.top)
             .attr("width", X_SCALE2.bandwidth())
-            //.attr("height", (d) => { return VIS_HEIGHT - Y_SCALE2(CountInstances(d, d.Species)); })
             .attr("height", (VIS_HEIGHT - Y_SCALE2(50)))
             .attr("class", (d) => { return (ClassChooser(d.Species)); }); 
 
