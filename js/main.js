@@ -49,7 +49,7 @@ function build_scatters() {
                             .attr("cx", (d) => { return (X_SCALE(d.Sepal_Length) + MARGINS.left); }) 
                             .attr("cy", (d) => { return (Y_SCALE(d.Petal_Length) + MARGINS.bottom); }) 
                             .attr("r", 5)
-                            .attr("id", (d) => { return d.id; })
+                            .attr("id", (d) => { return ("L" +d.id); })
                             .attr("class", (d) => { return (ClassChooser(d.Species)); }); 
 
     // Add x axis to vis  
@@ -114,7 +114,7 @@ function build_scatters() {
                     .attr("class", "frame"); 
 
     // plot points
-    var points = WIDTH.append('g')
+    var wpoints = WIDTH.append('g')
                           .selectAll("circle")
                           .data(data) // passed from .then  
                           .enter()       
@@ -122,7 +122,7 @@ function build_scatters() {
                             .attr("cx", (d) => { return (X_SCALE(d.Sepal_Width) + MARGINS.left); }) 
                             .attr("cy", (d) => { return (Y_SCALE(d.Petal_Width) + MARGINS.bottom); }) 
                             .attr("r", 5)
-                            .attr("id", (d) => { return d.id; })
+                            .attr("id", (d) => { return ("W" +d.id); })
                             .attr("class", (d) => { return (ClassChooser(d.Species)); }); 
 
     // Add x axis to vis  
@@ -139,7 +139,43 @@ function build_scatters() {
         .call(d3.axisLeft(Y_SCALE).ticks(4)) 
           .attr("font-size", '10px'); 
 
-    // somehow do linking here maybe??
+    
+    d3.select("#width")
+          .call( d3.brush()                     // Add the brush feature using the d3.brush function
+            .extent( [ [0,0], [(VIS_WIDTH + MARGINS.right), (VIS_HEIGHT + MARGINS.top)] ] )       // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+            .on("start brush", updateChart)
+          )
+
+
+    // Function that is triggered when brushing is performed
+    function updateChart(event) {
+      extent = event.selection  //get coordinate
+      wpoints.classed("selected", function(d){ return isBrushed(extent, X_SCALE(d.Sepal_Width), Y_SCALE(d.Petal_Width) ) } )
+}
+
+    // A function that return TRUE or FALSE according if a dot is in the selection or not
+    function isBrushed(brush_coords, cx, cy) {
+      let x = (cx + MARGINS.left);
+      let y = (cy + MARGINS.top);
+      var x0 = brush_coords[0][0],
+          x1 = brush_coords[1][0],
+          y0 = brush_coords[0][1],
+          y1 = brush_coords[1][1];
+        return x0 <= x && x <= x1 && y0 <= y && y <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
+}
+
+//     // somehow do linking here maybe??
+//     function linkChart() {
+//       wpoints.classed("selected", function(d){ return isBrushed(d.id) } )
+// }
+//     linkChart()
+
+//     // return true if the point on the length scatter is sleected
+//     function isSelected(id) {
+//       let LPoint = document.getElementById("L"+ id)
+
+//       return LPoint.classList.contains("selected");
+//      }
   }); 
 }
 
