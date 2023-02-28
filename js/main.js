@@ -141,6 +141,43 @@ function build_scatters() {
           y1 = brush_coords[1][1];
         return x0 <= x && x <= x1 && y0 <= y && y <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
     }
+
+    function brushed(event) {
+      // get the selected data points
+      const selection = event.selection;
+      const [x0, y0] = selection[0];
+      const [x1, y1] = selection[1];
+      const selectedData = data.filter(d =>
+        x0 <= X_SCALE(d.Sepal_Width) && X_SCALE(d.Sepal_Width) <= x1 &&
+        y0 <= Y_SCALE(d.Petal_Length) && Y_SCALE(d.Petal_Length) <= y1
+      );
+
+      // filter the corresponding data points in the first scatter plot
+      const filteredLengthPoints = length_points.filter(d =>
+        selectedData.findIndex(sd => sd.Species === d.Species) !== -1
+      );
+
+      // highlight the filtered data points in the first scatter plot
+      filteredLengthPoints
+        .transition()
+        .duration(200)
+        .style("opacity", 0.7)
+        .style("stroke", "orange")
+        .style("stroke-width", "2px");
+
+        // filter the corresponding bars in the bar chart
+      const filteredBars = bars.filter(d =>
+        selectedData.findIndex(sd => sd.Species === d.Species) !== -1
+      );
+
+      // highlight the corresponding bars in the bar chart
+      filteredBars
+        .transition()
+        .duration(200)
+        .style("stroke", "orange")
+        .style("stroke-width", "2px");
+    }
+
   }); 
 }
 
