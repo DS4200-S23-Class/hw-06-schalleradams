@@ -66,20 +66,6 @@ function build_scatters() {
         .call(d3.axisLeft(Y_SCALE).ticks(4)) 
           .attr("font-size", '10px'); 
 
-    // somehow do linking here maybe??
-    function linkChart() {
-      points.classed("selected", function(d){ return isSelected(d.id) } )
-}
-
-    // return true if the point on the length scatter is sleected
-    function isSelected(id) {
-      let WidthID = "W" + id
-      let LPoint = document.getElementById(WidthID)
-
-      return LPoint.classList.contains("selected");
-     }
-
-
 }); 
 
 // read data and create plot for width
@@ -142,7 +128,8 @@ function build_scatters() {
     function updateChart(event) {
       extent = event.selection  //get coordinate
       wpoints.classed("selected", function(d){ return isBrushed(extent, X_SCALE(d.Sepal_Width), Y_SCALE(d.Petal_Width) ) } )
-}
+      linkChart
+    }
 
     // A function that return TRUE or FALSE according if a dot is in the selection or not
     function isBrushed(brush_coords, cx, cy) {
@@ -157,7 +144,24 @@ function build_scatters() {
   }); 
 }
 
-build_scatters()
+
+// somehow do linking here maybe??
+function linkChart() {
+  d3.csv("data/iris.csv").then((data) => {
+    points.classed("selected", function(d){ return isSelected(d.id) } )
+    });
+}
+
+// return true if the point on the length scatter is sleected
+function isSelected(id) {
+  let WidthID = "W" + id
+  let LPoint = document.getElementById(WidthID)
+
+  return LPoint.classList.contains("selected");
+}
+
+
+build_scatters();
 
 // read data and create  bar chart
 d3.csv("data/iris.csv").then((data) => {
