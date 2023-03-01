@@ -189,46 +189,44 @@ function build_plots() {
       WidthPoints.classed("selected", function(d){ return isBrushed(extent, WidthXScale(d.Sepal_Width), WidthYScale(d.Petal_Width))});
 
       // link left graph
-      brushedPT = WidthPoints.selectAll(".selected");
+      
       LengthPoints.classed("selected", function(d){ return isBrushed(extent, WidthXScale(d.Sepal_Width), WidthYScale(d.Petal_Width))});
 
       // link right graph (does not work)
      
+      // initialize list
+      brushedPT = WidthPoints.selectAll(".selected");
+      let SpeciesList = [];
+
+      // get all selected setosa points and give the the class brushset
+      // then if there are elements in that class add setosa to the SpeciesList
       brushedSetosa = brushedPT.selectAll(".setosa");
       brushedSetosa.attr("class", "brushset");
+      if ( (".brushset").length > 1) {
+        SpeciesList.push("brushset");
+      }
 
+      // get all selected virginica points and give the the class brushvir
+      // then if there are elements in that class add virginica to the SpeciesList
       brushedVirginica = brushedPT.selectAll(".virginica");
       brushedVirginica.attr("class", "brushvir");
+      if ( (".brushvir").length > 1) {
+              SpeciesList.push("brushvir");
+            }
 
+      // get all selected versicolor points and give the the class brushver
+      // then if there are elements in that class add versicolor to the SpeciesList
       brushedVersicolor = brushedPT.selectAll(".versicolor");
       brushedVersicolor.attr("class", "brushver");
+      if ( (".brushver").length > 1) {
+        SpeciesList.push("brushver");
+      } 
 
-      const SpeciesList = checkBrush();
+      BarVals.selectAll(".virginica").classed('selected', (SpeciesList.includes("brushvir")));
+      BarVals.selectAll(".versicolor").classed('selected', (SpeciesList.includes("brushver")));
+      BarVals.selectAll(".setosa").classed('selected', (SpeciesList.includes("brushset")));
 
-      if (SpeciesList.includes("virginica")) {
-        document.getElementById("virginicabar").classList.add("selected")
-      }
-
-      if (SpeciesList.includes("versicolor")) {
-        document.getElementById("versicolorbar").classList.add("selected")
-      }
-
-      if (SpeciesList.includes("setosa")) {
-        document.getElementById("setosabar").classList.add("selected")
-      }
 }
-
-    function checkBrush() {
-      const classes = []
-
-      if ( (".brushvir").length > 0) {
-      classes.push("virginica");
-    } if ( (".brushver").length > 0) {
-      classes.push("versicolor");
-    } if ( (".brushset").length > 0) {
-      classes.push("setosa");
-    } return classes};
-
 
     // A function that return TRUE or FALSE according if a dot is in the selection or not
     function isBrushed(brush_coords, cx, cy) {
