@@ -1,3 +1,4 @@
+// fucntion to select class from species
 function ClassChooser(s) {
     if (s == "virginica") {
         return "virginica";
@@ -8,6 +9,7 @@ function ClassChooser(s) {
       } 
 }
 
+// constants for plot design
 const FRAME_HEIGHT = 400;
 const FRAME_WIDTH = 400; 
 const MARGINS = {left: 25, right: 25, top: 25, bottom: 25};
