@@ -134,17 +134,32 @@ function build_plots() {
                         .attr("id", "bar")
                         .attr("class", "frame"); 
     
-    // plot our points
-    const BarPoints = BAR.append('g')
-                          .selectAll("rect")
-                          .data(data) // passed from .then  
-                          .enter()
-                          .append("rect")  
-                            .attr("x", (d) => { return ((BarXScale(d.Species)) + MARGINS.left); }) 
-                            .attr("y", (BarYScale(50)) + MARGINS.top)
-                            .attr("width", BarXScale.bandwidth())
-                            .attr("height", (VIS_HEIGHT - BarYScale(50)))
-                            .attr("class", (d) => { return (ClassChooser(d.Species)); }); 
+    // plot frequencies
+    BAR.append("rect")  
+      .attr("x", ((BarXScale("versicolor")) + MARGINS.left)) 
+      .attr("y", (BarYScale(50)) + MARGINS.top)
+      .attr("width", BarXScale.bandwidth())
+      .attr("height", (VIS_HEIGHT - BarYScale(50)))
+      .attr("id", "versicolorbar")
+      .attr("class", (ClassChooser("versicolor")))
+
+    BAR.append("rect")  
+        .attr("x", ((BarXScale("virginica")) + MARGINS.left))                 
+                        .attr("y", (BarYScale(50)) + MARGINS.top)
+                        .attr("width", BarXScale.bandwidth())
+                        .attr("height", (VIS_HEIGHT - BarYScale(50)))
+                        .attr("id", "virginicabar")
+                        .attr("class", (ClassChooser("virginica"))); 
+    
+    BAR.append("rect")  
+        .attr("x", ((BarXScale("setosa")) + MARGINS.left))                 
+                        .attr("y", (BarYScale(50)) + MARGINS.top)
+                        .attr("width", BarXScale.bandwidth())
+                        .attr("height", (VIS_HEIGHT - BarYScale(50)))
+                        .attr("id", "setosabar")
+                        .attr("class", (ClassChooser("setosa"))); 
+
+    const BarVals = BAR;
                       
      // Add an axis to the vis 
     BAR.append("g") 
@@ -182,8 +197,10 @@ function build_plots() {
       brushedVirginica = brushedPT.selectAll(".virginica");
       brushedVersicolor = brushedPT.selectAll(".versicolor");
 
-      Spoints = BarPoints.selectAll(".setosa");
+      Spoints = BarVals.selectAll(".setosa");
       Spoints.classed("selected", true);
+
+      document.getElementById("virginicabar").classList.add("selected")
 
       // BarPoints.classed("selected", function(d){ return isBrushed(extent, WidthXScale(d.Sepal_Width), WidthYScale(d.Petal_Width))});
 
