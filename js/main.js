@@ -193,28 +193,39 @@ function build_plots() {
       LengthPoints.classed("selected", function(d){ return isBrushed(extent, WidthXScale(d.Sepal_Width), WidthYScale(d.Petal_Width))});
 
       // link right graph (does not work)
+     
       brushedSetosa = brushedPT.selectAll(".setosa");
+      brushedSetosa.attr("class", "brushset");
+
       brushedVirginica = brushedPT.selectAll(".virginica");
+      brushedVirginica.attr("class", "brushvir");
+
       brushedVersicolor = brushedPT.selectAll(".versicolor");
+      brushedVersicolor.attr("class", "brushver");
 
-      Spoints = BarVals.selectAll(".setosa");
-      Spoints.classed("selected", true);
+      const SpeciesList = checkBrush();
 
-      document.getElementById("virginicabar").classList.add("selected")
+      if (SpeciesList.includes("virginica")) {
+        document.getElementById("virginicabar").classList.add("selected")
+      }
 
-      // BarPoints.classed("selected", function(d){ return isBrushed(extent, WidthXScale(d.Sepal_Width), WidthYScale(d.Petal_Width))});
+      if (SpeciesList.includes("versicolor")) {
+        document.getElementById("versicolorbar").classList.add("selected")
+      }
 
-      // BarPoints.classed("selected", function(d){ return brushedClasses.includes(d.species) });
-    }
+      if (SpeciesList.includes("setosa")) {
+        document.getElementById("setosabar").classList.add("selected")
+      }
+}
 
-    function checkBrush(a, b, c) {
+    function checkBrush() {
       const classes = []
 
-      if (!a.length) {
+      if ( (".brushvir").length > 0) {
       classes.push("virginica");
-    } if (!b.length) {
+    } if ( (".brushver").length > 0) {
       classes.push("versicolor");
-    } if (!c.length) {
+    } if ( (".brushset").length > 0) {
       classes.push("setosa");
     } return classes};
 
