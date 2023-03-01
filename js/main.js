@@ -138,7 +138,7 @@ function build_plots() {
     const BarPoints = BAR.append('g')
                           .selectAll("rect")
                           .data(data) // passed from .then  
-                          .enter()       
+                          .enter()
                           .append("rect")  
                             .attr("x", (d) => { return ((BarXScale(d.Species)) + MARGINS.left); }) 
                             .attr("y", (BarYScale(50)) + MARGINS.top)
@@ -182,9 +182,12 @@ function build_plots() {
       brushedVirginica = brushedPT.selectAll(".virginica");
       brushedVersicolor = brushedPT.selectAll(".versicolor");
 
-      brushedSetosa.attr("class", "selected");
+      Spoints = BarPoints.selectAll(".setosa");
+      Spoints.classed("selected", true);
 
-      //BarPoints.classed("selected", function(d){ return brushedClasses.includes(d.species) });
+      // BarPoints.classed("selected", function(d){ return isBrushed(extent, WidthXScale(d.Sepal_Width), WidthYScale(d.Petal_Width))});
+
+      // BarPoints.classed("selected", function(d){ return brushedClasses.includes(d.species) });
     }
 
     function checkBrush(a, b, c) {
